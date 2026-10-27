@@ -6,6 +6,10 @@ export default {
     orders: 'Orders',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
+    restocking: 'Restocking',
+    reports: 'Reports',
+    main: 'Main',
+    toggleSidebar: 'Toggle sidebar',
     companyName: 'Catalyst Components',
     subtitle: 'Inventory Management System'
   },
@@ -112,6 +116,14 @@ export default {
     onTimeDelivery: 'On-Time Delivery',
     itemsCount: '{count} items',
     quantity: 'Qty',
+    submitted: {
+      title: 'Submitted Orders',
+      empty: 'No restock orders have been submitted yet',
+      loadError: 'Failed to load submitted orders',
+      submittedDate: 'Submitted',
+      leadTime: 'Lead Time',
+      leadTimeDays: '{days} days'
+    },
     table: {
       orderNumber: 'Order Number',
       orderId: 'Order ID',
@@ -309,6 +321,43 @@ export default {
     english: 'English',
     japanese: 'Japanese',
     selectLanguage: 'Select Language'
+  },
+
+  // Restocking
+  restocking: {
+    title: 'Restocking',
+    description: 'Recommended purchase quantities for items forecast to run short, within your budget',
+    budget: 'Budget',
+    budgetLabel: 'Restocking budget',
+    recommendations: 'Recommendations',
+    empty: 'No restocking is recommended for this budget',
+    loadError: 'Failed to load recommendations',
+    summary: {
+      totalCost: 'Total Cost',
+      remainingBudget: 'Remaining Budget',
+      leadTime: 'Estimated Lead Time',
+      leadTimeDays: '{days} days'
+    },
+    table: {
+      sku: 'SKU',
+      product: 'Product',
+      category: 'Category',
+      trend: 'Trend',
+      onHand: 'On Hand',
+      forecast: 'Forecast',
+      shortfall: 'Shortfall',
+      quantity: 'Qty to Order',
+      unitCost: 'Unit Cost',
+      lineTotal: 'Line Total',
+      leadTime: 'Lead Time'
+    },
+    leadTimeDays: '{days} d',
+    placeOrder: 'Place Order',
+    placing: 'Placing order...',
+    orderPlaced: 'Order placed',
+    orderConfirmation: 'Order {orderNumber} was submitted. Expected delivery: {date}.',
+    viewOrders: 'View in Orders',
+    orderError: 'Failed to place order'
   },
 
   // Common
