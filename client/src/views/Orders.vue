@@ -75,6 +75,42 @@
         </div>
       </div>
     </div>
+
+    <div class="card submitted-orders">
+      <div class="card-header">
+        <h3 class="card-title">{{ t('orders.submitted.title') }} ({{ restockOrders.length }})</h3>
+      </div>
+      <div v-if="restockError" class="error">{{ restockError }}</div>
+      <div v-else-if="restockOrders.length === 0" class="loading">
+        {{ restockLoading ? t('common.loading') : t('orders.submitted.empty') }}
+      </div>
+      <div v-else class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ t('orders.table.orderNumber') }}</th>
+              <th>{{ t('orders.submitted.submittedDate') }}</th>
+              <th>{{ t('orders.table.items') }}</th>
+              <th>{{ t('orders.table.totalValue') }}</th>
+              <th>{{ t('orders.table.status') }}</th>
+              <th>{{ t('orders.submitted.leadTime') }}</th>
+              <th>{{ t('orders.table.expectedDelivery') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="order in restockOrders" :key="order.id">
+              <td><strong>{{ order.order_number }}</strong></td>
+              <td>{{ formatDate(order.submitted_date) }}</td>
+              <td>{{ t('orders.itemsCount', { count: order.items.length }) }}</td>
+              <td><strong>{{ formatCurrency(order.total_cost, currentCurrency) }}</strong></td>
+              <td><span class="badge info">{{ order.status }}</span></td>
+              <td>{{ t('orders.submitted.leadTimeDays', { days: order.lead_time_days }) }}</td>
+              <td>{{ formatDate(order.expected_delivery) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -83,6 +119,7 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { api } from '../api'
 import { useFilters } from '../composables/useFilters'
 import { useI18n } from '../composables/useI18n'
+import { formatCurrency } from '../utils/currency'
 
 export default {
   name: 'Orders',
@@ -153,9 +190,36 @@ export default {
       })
     }
 
-    onMounted(loadOrders)
+    // Submitted restock orders: independent of the filter bar
+    const restockOrders = ref([])
+    const restockLoading = ref(true)
+    const restockError = ref(null)
+
+    const loadRestockOrders = async () => {
+      try {
+        restockLoading.value = true
+        restockError.value = null
+        const result = await api.getRestockOrders()
+        restockOrders.value = Array.isArray(result) ? result : []
+      } catch (err) {
+        restockError.value = t('orders.submitted.loadError')
+        console.error('Failed to load restock orders:', err)
+      } finally {
+        restockLoading.value = false
+      }
+    }
+
+    onMounted(() => {
+      loadOrders()
+      loadRestockOrders()
+    })
 
     return {
+      restockOrders,
+      restockLoading,
+      restockError,
+      formatCurrency,
+      currentCurrency,
       t,
       loading,
       error,
