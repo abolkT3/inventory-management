@@ -18,6 +18,7 @@ A full-stack demo application for a Claude Code workshop — inventory managemen
 - Demand forecasting with trend analysis
 - Backlog monitoring
 - Spending analytics
+- Restocking recommendations and purchase order creation
 
 ## Quick Start
 
